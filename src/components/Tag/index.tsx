@@ -1,6 +1,9 @@
-import { Text, TouchableOpacity } from 'react-native';
-
+import { Text } from 'react-native';
+import { HoldItem } from 'react-native-hold-menu';
+import { FadeIn, FadeOut, Layout } from 'react-native-reanimated';
 import { styles } from './styles';
+import Animated from 'react-native-reanimated';
+
 
 type Props = {
   title: string;
@@ -9,8 +12,23 @@ type Props = {
 
 export function Tag({ title, onRemove }: Props) {
   return (
-    <TouchableOpacity  style={styles.container} onPress={onRemove}>
+    <Animated.View  
+    
+    style={styles.container} 
+    layout={Layout}
+    entering={FadeIn}
+    exiting={FadeOut}
+    >
+      <HoldItem items={[
+        { text: title, isTitle: true },
+        {
+          text: 'Apagar',
+          isDestructive: true,
+          onPress: () => onRemove()
+        }
+      ]}>
       <Text style={styles.title}>#{title}</Text>
-    </TouchableOpacity>
+      </HoldItem>
+    </Animated.View>
   );
 }
